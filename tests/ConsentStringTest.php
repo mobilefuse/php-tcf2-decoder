@@ -102,6 +102,31 @@ class ConsentStringTest extends TestCase {
         $this->assertArrayHasKey('720', $consent['vendorsDisclosed']['vendorsDisclosed']);
     }
 
+    public function testVendorsAllowedAndPublisherTcWorks(): void {
+        $test_string = 'COtybn4PA_zT4KjACBENAPCIAD-AAECAAIAAAxAAAAgAIAwgAgAAAAEAgQAAAAAEAYQAQAAAACAAAABACBQAYAAgAEEgBAABAAQA.IHGwAwAAgFeAcaA.Qu4QBQAGAAXABLAC8AMAu4A.cAAAAAAAITg';
+        $consent     = ConsentString::decode($test_string);
+
+        $this->assertCount(6, $consent['vendorsAllowed']['vendorsAllowed']);
+        $this->assertArrayHasKey(12, $consent['vendorsAllowed']['vendorsAllowed']);
+        $this->assertArrayHasKey(37, $consent['vendorsAllowed']['vendorsAllowed']);
+        $this->assertArrayHasKey(6000, $consent['vendorsAllowed']['vendorsAllowed']);
+
+        $this->assertCount(1, $consent['publisherTC']['publisherConsents']);
+        $this->assertArrayHasKey(1, $consent['publisherTC']['publisherConsents']);
+
+        $this->assertCount(1, $consent['publisherTC']['publisherLegitimateInterests']);
+        $this->assertArrayHasKey(24, $consent['publisherTC']['publisherLegitimateInterests']);
+
+        $this->assertEquals(2, $consent['publisherTC']['numCustomPurposes']);
+
+        $this->assertCount(1, $consent['publisherTC']['publisherCustomConsents']);
+        $this->assertArrayHasKey(2, $consent['publisherTC']['publisherCustomConsents']);
+
+        $this->assertCount(2, $consent['publisherTC']['publisherCustomLegitimateInterests']);
+        $this->assertArrayHasKey(1, $consent['publisherTC']['publisherCustomLegitimateInterests']);
+        $this->assertArrayHasKey(2, $consent['publisherTC']['publisherCustomLegitimateInterests']);
+    }
+
     public function testNonsenseStringFails(): void {
         $test_string = 'this-is-nonsense';
         $this->assertNull(ConsentString::decode($test_string));

@@ -9,23 +9,23 @@ use Exception;
 // - https://www.consentstringdecoder.com/
 // - https://iabtcf.com/#/decode
 class ConsentString {
-    private const BIT_LENGTH_ANY_BOOLEAN      = 1;
     private const BIT_LENGTH_BASIS            = 6;
-    private const BIT_LENGTH_ENCODING_TYPE    = 1;
-    private const BIT_LENGTH_IS_RANGE         = 1;
+    private const BIT_LENGTH_SEGMENT_TYPE     = 3;
+    private const BIT_LENGTH_VERSION          = 6;
     private const BIT_LENGTH_MAX_ID           = 16;
+    private const BIT_LENGTH_ENCODING_TYPE    = 1;
     private const BIT_LENGTH_NUM_ENTRIES      = 12;
+    private const BIT_LENGTH_IS_RANGE         = 1;
+    private const BIT_LENGTH_VENDOR_ID        = 16;
     private const BIT_LENGTH_NUM_RESTRICTIONS = 12;
     private const BIT_LENGTH_PURPOSE_ID       = 6;
     private const BIT_LENGTH_RESTRICTION_TYPE = 2;
-    private const BIT_LENGTH_SEGMENT_TYPE     = 3;
-    private const BIT_LENGTH_VENDOR_ID        = 16;
-    private const BIT_LENGTH_VERSION          = 6;
+    private const BIT_LENGTH_ANY_BOOLEAN      = 1;
 
     private const SEGMENT_CORE              = 'core';
-    private const SEGMENT_PUBLISHER_TC      = 'publisherTC';
-    private const SEGMENT_VENDORS_ALLOWED   = 'vendorsAllowed';
     private const SEGMENT_VENDORS_DISCLOSED = 'vendorsDisclosed';
+    private const SEGMENT_VENDORS_ALLOWED   = 'vendorsAllowed';
+    private const SEGMENT_PUBLISHER_TC      = 'publisherTC';
 
     private const VECTOR_ENCODING_TYPE_RANGE = 1;
 
@@ -91,6 +91,7 @@ class ConsentString {
     ];
 
     private static $calculated_bit_length = null;
+    private static $exception             = null;
 
     // will throw errors for invalid incoming data
     public static function decode(string $consent): ?array {
@@ -102,17 +103,22 @@ class ConsentString {
                 // First character will contain 6 bits, we only need the first three, which tells us
                 // what type of segment we're looking at, ie. what type of information it holds
 
-                $first_char = self::base64UrlDecode($segment[0]);
-                $segment_type_bits = substr($first_char, 0 , self::BIT_LENGTH_SEGMENT_TYPE);
-                $segment_type = self::SEGMENT_ID_TO_KEY[(int) $segment_type_bits];
+                $first_char        = self::base64UrlDecode($segment[0]);
+                $segment_type_bits = bindec(substr($first_char, 0, self::BIT_LENGTH_SEGMENT_TYPE));
+                $segment_type      = self::SEGMENT_ID_TO_KEY[$segment_type_bits];
 
                 self::parseConsentSegment($segment, $model, $segment_type);
             }
 
             return $model;
         } catch (Exception $exception) {
+            self::$exception = $exception;
             return null;
         }
+    }
+
+    public static function getException(): ?Exception {
+        return self::$exception;
     }
 
     private static function base64UrlDecode(string $string): string {
@@ -149,7 +155,7 @@ class ConsentString {
             $encoder    = $config['encoder'];
 
             if ($bit_length === null && strpos($field, 'publisherCustom') !== false) {
-                $bit_length = $model['core']['numCustomPurposes'];
+                $bit_length = $model[self::SEGMENT_PUBLISHER_TC]['numCustomPurposes'];
             }
 
             if ($bit_length !== 0) {
