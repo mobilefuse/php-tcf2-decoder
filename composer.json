@@ -1,6 +1,7 @@
 {
     "name": "mobilefuse/php-tcf2-decoder",
     "description": "A fast, light-weight TCF2 decoder",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
