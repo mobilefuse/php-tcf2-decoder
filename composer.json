@@ -1,0 +1,25 @@
+{
+    "name": "mobilefuse/php-tcf2-decoder",
+    "description": "A fast, light-weight TCF2 decoder",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan Barnett",
+            "email": "dan@barnett.app"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {"MobileFuse\\Tcf2Decoder\\": "src/"}
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit --bootstrap tests/bootstrap.php --testdox tests"
+    }
+}
