@@ -9,23 +9,23 @@ use Exception;
 // - https://www.consentstringdecoder.com/
 // - https://iabtcf.com/#/decode
 class ConsentString {
+    private const BIT_LENGTH_ANY_BOOLEAN      = 1;
     private const BIT_LENGTH_BASIS            = 6;
-    private const BIT_LENGTH_SEGMENT_TYPE     = 3;
-    private const BIT_LENGTH_VERSION          = 6;
-    private const BIT_LENGTH_MAX_ID           = 16;
     private const BIT_LENGTH_ENCODING_TYPE    = 1;
-    private const BIT_LENGTH_NUM_ENTRIES      = 12;
     private const BIT_LENGTH_IS_RANGE         = 1;
-    private const BIT_LENGTH_VENDOR_ID        = 16;
+    private const BIT_LENGTH_MAX_ID           = 16;
+    private const BIT_LENGTH_NUM_ENTRIES      = 12;
     private const BIT_LENGTH_NUM_RESTRICTIONS = 12;
     private const BIT_LENGTH_PURPOSE_ID       = 6;
     private const BIT_LENGTH_RESTRICTION_TYPE = 2;
-    private const BIT_LENGTH_ANY_BOOLEAN      = 1;
+    private const BIT_LENGTH_SEGMENT_TYPE     = 3;
+    private const BIT_LENGTH_VENDOR_ID        = 16;
+    private const BIT_LENGTH_VERSION          = 6;
 
     private const SEGMENT_CORE              = 'core';
-    private const SEGMENT_VENDORS_DISCLOSED = 'vendorsDisclosed';
-    private const SEGMENT_VENDORS_ALLOWED   = 'vendorsAllowed';
     private const SEGMENT_PUBLISHER_TC      = 'publisherTC';
+    private const SEGMENT_VENDORS_ALLOWED   = 'vendorsAllowed';
+    private const SEGMENT_VENDORS_DISCLOSED = 'vendorsDisclosed';
 
     private const VECTOR_ENCODING_TYPE_RANGE = 1;
 
