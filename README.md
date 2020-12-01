@@ -13,6 +13,8 @@ composer require mobilefuse/php-tcf2-decoder
 ## Usage
 
 ```
+use MobileFuse\Tcf2Decoder\ConsentString;
+
 $consent = ConsentString::decode("COvFyGBOvFyGBAbAAAENAPCAAOAAAAAAAAAAAEEUACCKAAA.IFoEUQQgAIQwgIwQABAEAAAAOIAACAIAAAAQAIAgEAACEAAAAAgAQBAAAAAAAGBAAgAAAAAAAFAAECAAAgAAQARAEQAAAAAJAAIAAgAAAYQEAAAQmAgBC3ZAYzUw");
 
 var_dump($consent);
