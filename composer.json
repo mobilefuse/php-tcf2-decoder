@@ -9,7 +9,6 @@
             "email": "dan@barnett.app"
         }
     ],
-    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {"MobileFuse\\Tcf2Decoder\\": "src/"}
     },
